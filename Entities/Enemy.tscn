@@ -9,7 +9,10 @@ height = 1.0
 
 [node name="Enemy" type="KinematicBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
+collision_layer = 4
+collision_mask = 4
 script = ExtResource( 2 )
+speed = 50
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )

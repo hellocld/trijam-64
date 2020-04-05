@@ -5,6 +5,7 @@ var state = State.IDLE
 
 export var speed = 60
 export var attack_dist = 1.1
+export var health = 1
 
 var target:KinematicBody
 onready var sprite = $"Sprite3D"
@@ -35,3 +36,13 @@ func _physics_process(delta):
 			attack_cooldown.start()
 			state = State.IDLE
 			print_debug("to State.IDLE")
+
+
+func take_damage():
+	health -= 1
+	if health <= 0:
+		queue_free()
+
+
+func game_over():
+	target = null
