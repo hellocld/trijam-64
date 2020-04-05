@@ -1,5 +1,7 @@
 extends KinematicBody
 
+signal dead
+
 enum State { IDLE, MOVING, ATTACKING }
 var state = State.IDLE
 
@@ -18,12 +20,10 @@ func _physics_process(delta):
 	match state:
 		State.IDLE:
 			if attack_cooldown.get_time_left() <= 0:
-				print("to State.MOVING")
 				state = State.MOVING
 		State.MOVING:
 			var dist_to_target = transform.origin.distance_to(target.transform.origin)
 			if attack_cooldown.get_time_left() <= 0 && dist_to_target < attack_dist:
-				print_debug("to State.MOVING")
 				state = State.ATTACKING
 			var move_dir = (target.transform.origin - transform.origin).normalized()
 			if move_dir.x < 0:
@@ -32,17 +32,19 @@ func _physics_process(delta):
 				sprite.flip_h = false
 			move_and_slide(move_dir * speed * delta, Vector3.UP)
 		State.ATTACKING:
+			$AudioStreamPlayer3D.play()
 			target.take_damage()
 			attack_cooldown.start()
 			state = State.IDLE
-			print_debug("to State.IDLE")
 
 
 func take_damage():
 	health -= 1
 	if health <= 0:
+		emit_signal("dead")
 		queue_free()
 
 
 func game_over():
+	print("Enemy game over")
 	target = null

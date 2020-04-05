@@ -1,12 +1,14 @@
 extends KinematicBody
 
 signal dead
+signal damaged
 
 export(PackedScene) var fireball
 export var speed = 30
 var input:Vector2
 
 var health = 3
+onready var max_health:float = health
 
 onready var sprite = $"Sprite3D"
 
@@ -35,9 +37,10 @@ func _physics_process(delta):
 
 func take_damage():
 	health -= 1
+	emit_signal("damaged", (health/float(max_health)) * 100)
 	if health <= 0:
+		print("Dead")
 		emit_signal("dead")
-		queue_free()
 
 
 func _on_FireTimer_timeout():
@@ -54,8 +57,8 @@ func _on_FireTimer_timeout():
 		if dir == Vector3.ZERO:
 			return
 		dir = dir.normalized()
-		print(dir)
 		var f = fireball.instance() as Fireball
 		get_tree().root.add_child(f)
 		f.transform.origin = transform.origin
 		f.dir = dir
+		$AudioStreamPlayer3D.play()
