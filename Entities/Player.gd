@@ -3,6 +3,8 @@ extends KinematicBody
 export var speed = 30
 var input:Vector2
 
+var health = 3
+
 onready var sprite = $"Sprite3D"
 
 
@@ -24,3 +26,15 @@ func _physics_process(delta):
 				Vector3(input.x, 0, input.y) * speed * delta,
 				Vector3.UP
 		)
+
+func take_damage():
+	health -= 1
+	if health <= 0:
+		dead()
+	else:
+		print_debug("Ouch!")
+
+
+func dead():
+	print_debug("You're dead!")
+	queue_free()
