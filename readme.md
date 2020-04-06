@@ -1,6 +1,6 @@
 # Lil' Devils
 
-This is a tiny little game made in three hours for TriJam 64. A good third of the time was spent refamiliarizing myself with Godot, as I got a little rusty recently.
+This is a tiny little game made in three hours for [Trijam 64](https://itch.io/jam/trijam-64). A good third of the time was spent refamiliarizing myself with Godot, as I got a little rusty recently.
 
 ## How to Play
 
